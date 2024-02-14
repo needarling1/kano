@@ -4,8 +4,6 @@ require('dotenv').config();
 module.exports = {
     init: () => {
         const db_options = {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
             autoIndex: false,
             maxPoolSize: 5,
             connectTimeoutMS: 10000,

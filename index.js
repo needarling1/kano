@@ -1,30 +1,35 @@
 require('dotenv').config();
-const fs = require('node:fs');
+const fs = require('fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const mongoose = require('./database/mongoose')
 
 mongoose.init();
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-/*
-client.commands = new Collection();
-const foldersPath = path.join(__dirname, 'commands');
-const commandFolders = fs.readdirSync(foldersPath);
 
-for (const folder of commandFolders) {
-	const commandsPath = path.join(foldersPath, folder);
-	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-	for (const file of commandFiles) {
-		const filePath = path.join(commandsPath, file);
-		const command = require(filePath);
-		if ('data' in command && 'execute' in command) {
-			client.commands.set(command.data.name, command);
-		} else {
-			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
-		}
+client.prefix = '!';
+client.commands = new Collection();
+
+const command_files = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+for(const file of command_files) {
+	const command = require(`./commands/${file}`);
+	client.commands.set(command.name, command)
+}
+
+const events_path = path.join(__dirname, 'events');
+const event_files = fs.readdirSync(events_path).filter(file => file.endsWith('.js'));
+
+for (const file of event_files) {
+	const file_path = path.join(events_path, file);
+	const event = require(file_path);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
 	}
 }
-*/
+
 client.login(process.env.TOKEN);
 
 
