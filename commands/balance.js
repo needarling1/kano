@@ -17,7 +17,7 @@ module.exports = {
                 guild_id: message.guild.id,
                 timestamp: 0, 
                 timestamp: Date.now()
-         });
+         }).save();
             /*await balance_profile.save().catch(err => console.error(err));*/
         }
 

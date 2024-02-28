@@ -1,5 +1,6 @@
 const { Events } = require('discord.js');
 const Balance = require(`../database/schema/balance_schema.js`)
+const Collection = require(`../database/schema/collection_schema.js`)
 const mongoose = require('mongoose');
 
 module.exports = {
@@ -28,12 +29,22 @@ module.exports = {
         if ((curr_time - balance_profile.timestamp) >= 60000) {
             await Balance.findOneAndUpdate(
                 {user_id: message.author.id, guild_id: message.guild.id}, 
-                {$set: {balance: balance_profile.balance + 1, timestamp: curr_time}},
+                {$set: {balance: balance_profile.balance + 10, timestamp: curr_time}},
                 {new: true}
                 );
         }
 
+        let collection_profile = await Collection.findOne({user_id: message.author.id, guild_id: message.guild.id});
+                
+                if(!collection_profile) {
+                    collection_profile = await new Collection({
+                        _id: new mongoose.Types.ObjectId(),
+                        user_id: message.author.id,
+                        guild_id: message.guild.id,
+                        owned: [-1]
+                 }).save()}
+
         console.log('executed messages')
-        
+
 	},
 };

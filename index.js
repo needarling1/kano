@@ -1,7 +1,7 @@
 require('dotenv').config();
 const fs = require('fs');
 const path = require('node:path');
-const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const mongoose = require('./database/mongoose');
 const prefix = '!';
 
@@ -58,6 +58,7 @@ client.on(Events.MessageCreate, async message => {
 
 	const command = client.commands.get(commandName);
 	console.log(command)
+	
 	try {
 		command.execute(message, args, client);
 		console.log("it worked");
