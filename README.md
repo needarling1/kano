@@ -4,6 +4,8 @@ Kano is a Discord gacha bot, similar to bots such as Mudae and Karuta. You can p
 
 Commands include !balance, !wish, and !collection
 
+Image & Character info from [anilist.co]anilist.co
+
 Tech Stack: **Node.js, Discord.js, MongoDB**
 
 Update: Kano is no longer actively running :( 
